@@ -50,7 +50,6 @@ export default class ModalHandler {
 
   onEditorClick = () => {
     this.closeModals();
-    console.log('ddd')
     if (!this.suggestionFlag && this.suggestionCallback) {
       this.suggestionCallback();
     } else {

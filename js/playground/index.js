@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import draftToHtml from 'draftjs-to-html'; // eslint-disable-line import/no-extraneous-dependencies
+import draftToHtml from '../src/tohtml/index'; // eslint-disable-line import/no-extraneous-dependencies
 import draftToMarkdown from 'draftjs-to-markdown'; // eslint-disable-line import/no-extraneous-dependencies
 import {
   convertFromHTML,
@@ -26,7 +26,7 @@ const rawContentState = {
     "entityMap": {},
     "blocks": [{
         "key": "f5emd",
-        "text": "fsfs中sdasd华人民共和国",
+        "text": "fsfs🤗中sdasd华人民共和国",
         "type": "unstyled",
         "depth": 0,
         "inlineStyleRanges": [{
@@ -110,7 +110,7 @@ class Playground extends Component {
               wrapperClassName="playground-wrapper"
               editorClassName="playground-editor"
               uploadCallback={this.imageUploadCallBack}
-              onEditorStateChange={(e) => {console.log(e)}}
+              onEditorStateChange={null}
               onContentStateChange={this.onEditorChange}
               placeholder="testing"
               spellCheck
