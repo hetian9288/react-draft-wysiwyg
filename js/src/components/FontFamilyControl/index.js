@@ -20,6 +20,7 @@ export default class FontFamilyControl extends Component {
 
   state: Object = {
     currentFontFamily: undefined,
+    currentFontFamilyName: '字体'
   };
 
   componentWillMount(): void {
@@ -34,6 +35,19 @@ export default class FontFamilyControl extends Component {
   componentWillReceiveProps(properties: Object): void {
     if (properties.editorState &&
       this.props.editorState !== properties.editorState) {
+      let fontFamily = getSelectionCustomInlineStyle(properties.editorState, ['FONTFAMILY']).FONTFAMILY;
+      if(fontFamily){
+        fontFamily =
+            fontFamily && fontFamily.substring(11, fontFamily.length);
+        this.props.config.options.forEach(item => {
+          if(item.value === fontFamily) {
+            this.setState({
+              currentFontFamilyName: item.name,
+            });
+          }
+        });
+      }
+
       this.setState({
         currentFontFamily:
           getSelectionCustomInlineStyle(properties.editorState, ['FONTFAMILY']).FONTFAMILY,
@@ -54,10 +68,11 @@ export default class FontFamilyControl extends Component {
   };
 
   render() {
-    let { currentFontFamily } = this.state;
+    let { currentFontFamily, currentFontFamilyName } = this.state;
     const { config: { className, dropdownClassName, options }, modalHandler } = this.props;
     currentFontFamily =
       currentFontFamily && currentFontFamily.substring(11, currentFontFamily.length);
+
     return (
       <div className="rdw-fontfamily-wrapper" aria-label="rdw-font-family-control">
         <Dropdown
@@ -67,16 +82,16 @@ export default class FontFamilyControl extends Component {
           optionWrapperClassName={classNames('rdw-fontfamily-optionwrapper', dropdownClassName)}
         >
           <span className="rdw-fontfamily-placeholder">
-            {currentFontFamily || 'Font Family'}
+            {currentFontFamilyName}
           </span>
           {
             options.map((family, index) =>
               <DropdownOption
-                active={currentFontFamily === family}
-                value={`fontfamily-${family}`}
+                active={currentFontFamily === family.value}
+                value={`fontfamily-${family.value}`}
                 key={index}
               >
-                {family}
+                {family.name}
               </DropdownOption>)
           }
         </Dropdown>

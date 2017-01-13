@@ -4,6 +4,7 @@ import React, { Component, PropTypes } from 'react';
 import { Modifier, EditorState } from 'draft-js';
 import classNames from 'classnames';
 import Option from '../Option';
+import {JavaDe} from '../../Utils/func';
 import styles from './styles.css'; // eslint-disable-line no-unused-vars
 
 export default class EmojiControl extends Component {
@@ -107,10 +108,7 @@ export default class EmojiControl extends Component {
           value="unordered-list-item"
           onClick={this.onOptionClick}
         >
-          <img
-            src={icon}
-            role="presentation"
-          />
+          <span className="iconfont">{JavaDe(icon)}</span>
         </Option>
         {showModal ? this.renderEmojiModal() : undefined}
       </div>

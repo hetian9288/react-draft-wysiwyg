@@ -67,14 +67,12 @@ export default class FontSizeControl extends Component {
           className={classNames('rdw-fontsize-dropdown', className)}
           onChange={this.toggleFontSize}
           modalHandler={modalHandler}
+          optionWrapperClassName={classNames('rdw-fontsize-optionwrapper')}
         >
           {currentFontSize ?
             <span>{currentFontSize}</span>
           :
-            <img
-              src={icon}
-              role="presentation"
-            />
+            <span>字号</span>
           }
           {
             options.map((size, index) =>
@@ -84,7 +82,7 @@ export default class FontSizeControl extends Component {
                 value={`fontsize-${size}`}
                 key={index}
               >
-                {size}
+                <span>{size}px</span>
               </DropdownOption>
             )
           }

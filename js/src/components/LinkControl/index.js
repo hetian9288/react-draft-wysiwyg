@@ -10,6 +10,7 @@ import {
 import classNames from 'classnames';
 import { getFirstIcon } from '../../utils/toolbar';
 import Option from '../Option';
+import {JavaDe} from '../../Utils/func';
 import { Dropdown, DropdownOption } from '../Dropdown';
 import styles from './styles.css'; // eslint-disable-line no-unused-vars
 
@@ -172,7 +173,7 @@ export default class LinkControl extends Component {
         className={classNames('rdw-link-modal', popupClassName)}
         onClick={this.stopPropagation}
       >
-        <span className="rdw-link-modal-label">Link Title</span>
+        <span className="rdw-link-modal-label">链接标题</span>
         <input
           ref={this.setLinkTitleReference}
           className="rdw-link-modal-input"
@@ -180,7 +181,7 @@ export default class LinkControl extends Component {
           onBlur={this.updateLinkTitle}
           value={linkTitle}
         />
-        <span className="rdw-link-modal-label">Link Target</span>
+        <span className="rdw-link-modal-label">链接地址</span>
         <input
           ref={this.setLinkTextReference}
           className="rdw-link-modal-input"
@@ -219,10 +220,7 @@ export default class LinkControl extends Component {
           aria-haspopup="true"
           aria-expanded={showModal}
         >
-          <img
-            src={link.icon}
-            role="presentation"
-          />
+          <span className="iconfont">{JavaDe(link.icon)}</span>
         </Option>}
         {options.indexOf('unlink') >= 0 && <Option
           disabled={!linkEntityCurrently}
@@ -230,10 +228,7 @@ export default class LinkControl extends Component {
           className={classNames(unlink.className)}
           onClick={this.removeLink}
         >
-          <img
-            src={unlink.icon}
-            role="presentation"
-          />
+          <span className="iconfont">{JavaDe(unlink.icon)}</span>
         </Option>}
         {showModal ? this.renderAddLinkModal() : undefined}
       </div>
@@ -255,28 +250,19 @@ export default class LinkControl extends Component {
           onChange={this.toggleInlineStyle}
           modalHandler={modalHandler}
         >
-          <img
-            src={getFirstIcon(config)}
-            role="presentation"
-          />
+          <span className="iconfont">{JavaDe(getFirstIcon(config))}</span>
           {options.indexOf('link') >= 0 && <DropdownOption
             onClick={this.onOptionClick}
             className={classNames('rdw-link-dropdownoption', link.className)}
           >
-            <img
-              src={link.icon}
-              role="presentation"
-            />
+            <span className="iconfont">{JavaDe(link.icon)}</span>
           </DropdownOption>}
           {options.indexOf('unlink') >= 0 && <DropdownOption
             onClick={this.removeLink}
             disabled={!currentEntity}
             className={classNames('rdw-link-dropdownoption', unlink.className)}
           >
-            <img
-              src={unlink.icon}
-              role="presentation"
-            />
+            <span className="iconfont">{JavaDe(unlink.icon)}</span>
           </DropdownOption>}
         </Dropdown>
         {showModal ? this.renderAddLinkModal() : undefined}

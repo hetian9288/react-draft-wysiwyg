@@ -11,12 +11,27 @@ export default class ModalHandler {
     });
   };
 
-  init = (wrapperId: string) => {
+  init = (wrapperId: string, toolbarId: string, isPopup: Boolean) => {
     const wrapper = document.getElementById(wrapperId); // eslint-disable-line no-undef
     wrapper.addEventListener('click', () => {
       this.editorFlag = true;
     });
-    document.addEventListener('click', () => { // eslint-disable-line no-undef
+
+    document.addEventListener('click', (e) => { // eslint-disable-line no-undef
+      // 兼容浮动模式
+      if(isPopup){
+        let i = 0;
+        e.path.every(item => {
+          if(this.editorFlag == false && item.getAttribute('id') === toolbarId){
+            this.editorFlag = true;
+          }
+          if(i >= 30 || item.tagName == 'BODY'){
+            return false;
+          }
+          i++;
+          return true;
+        });
+      }
       if (!this.editorFlag) {
         this.closeAllModals();
         if (this.suggestionCallback) {
@@ -35,6 +50,7 @@ export default class ModalHandler {
 
   onEditorClick = () => {
     this.closeModals();
+    console.log('ddd')
     if (!this.suggestionFlag && this.suggestionCallback) {
       this.suggestionCallback();
     } else {

@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import Option from '../Option';
 import { Dropdown, DropdownOption } from '../Dropdown';
 import { getFirstIcon } from '../../utils/toolbar';
+import {JavaDe} from '../../Utils/func';
 import styles from './styles.css'; // eslint-disable-line no-unused-vars
 
 export default class TextAlignControl extends Component {
@@ -50,10 +51,7 @@ export default class TextAlignControl extends Component {
           active={currentTextAlignment === 'left'}
           onClick={this.addBlockAlignmentData}
         >
-          <img
-            src={left.icon}
-            role="presentation"
-          />
+          <span className="iconfont">{JavaDe(left.icon)}</span>
         </Option>}
         {options.indexOf('center') >= 0 && <Option
           value="center"
@@ -61,10 +59,7 @@ export default class TextAlignControl extends Component {
           active={currentTextAlignment === 'center'}
           onClick={this.addBlockAlignmentData}
         >
-          <img
-            src={center.icon}
-            role="presentation"
-          />
+          <span className="iconfont">{JavaDe(center.icon)}</span>
         </Option>}
         {options.indexOf('right') >= 0 && <Option
           value="right"
@@ -72,10 +67,7 @@ export default class TextAlignControl extends Component {
           active={currentTextAlignment === 'right'}
           onClick={this.addBlockAlignmentData}
         >
-          <img
-            src={right.icon}
-            role="presentation"
-          />
+          <span className="iconfont">{JavaDe(right.icon)}</span>
         </Option>}
         {options.indexOf('justify') >= 0 && <Option
           value="justify"
@@ -83,10 +75,7 @@ export default class TextAlignControl extends Component {
           active={currentTextAlignment === 'justify'}
           onClick={this.addBlockAlignmentData}
         >
-          <img
-            src={justify.icon}
-            role="presentation"
-          />
+          <span className="iconfont">{JavaDe(justify.icon)}</span>
         </Option>}
       </div>
     );
@@ -103,49 +92,34 @@ export default class TextAlignControl extends Component {
         modalHandler={modalHandler}
         aria-label="rdw-textalign-control"
       >
-        <img
-          src={getFirstIcon(config)}
-          role="presentation"
-        />
+        <span className="iconfont">{JavaDe(getFirstIcon(config))}</span>
         {options.indexOf('left') >= 0 && <DropdownOption
           value="left"
           active={currentTextAlignment === 'left'}
           className={classNames('rdw-text-align-dropdownOption', left.className)}
         >
-          <img
-            src={left.icon}
-            role="presentation"
-          />
+          <span className="iconfont">{JavaDe(left.icon)}</span>
         </DropdownOption>}
         {options.indexOf('center') >= 0 && <DropdownOption
           value="center"
           active={currentTextAlignment === 'center'}
           className={classNames('rdw-text-align-dropdownOption', center.className)}
         >
-          <img
-            src={center.icon}
-            role="presentation"
-          />
+          <span className="iconfont">{JavaDe(center.icon)}</span>
         </DropdownOption>}
         {options.indexOf('right') >= 0 && <DropdownOption
           value="right"
           active={currentTextAlignment === 'right'}
           className={classNames('rdw-text-align-dropdownOption', right.className)}
         >
-          <img
-            src={right.icon}
-            role="presentation"
-          />
+          <span className="iconfont">{JavaDe(right.icon)}</span>
         </DropdownOption>}
         {options.indexOf('justify') >= 0 && <DropdownOption
           value="justify"
           active={currentTextAlignment === 'justify'}
           className={classNames('rdw-text-align-dropdownOption', justify.className)}
         >
-          <img
-            src={justify.icon}
-            role="presentation"
-          />
+          <span className="iconfont">{JavaDe(justify.icon)}</span>
         </DropdownOption>}
       </Dropdown>
     );

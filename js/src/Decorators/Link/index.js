@@ -1,7 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import { Entity } from 'draft-js';
 import styles from './styles.css'; // eslint-disable-line no-unused-vars
-import openlink from '../../../../images/openlink.svg';
 
 function findLinkEntities(contentBlock, callback) {
   contentBlock.findEntityRanges(
@@ -53,12 +52,11 @@ class Link extends Component {
       >
         <a href={url}>{title}</a>
         {showPopOver ?
-          <img
-            src={openlink}
+          <span
             role="presentation"
             onClick={this.openLink}
-            className="rdw-link-decorator-icon"
-          />
+            className="rdw-link-decorator-icon iconfont"
+          >&#xe601;</span>
           : undefined
         }
       </span>

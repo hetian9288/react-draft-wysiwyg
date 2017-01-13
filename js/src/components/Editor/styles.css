@@ -2,6 +2,7 @@
   height: 100%;
   width: 100%;
   overflow: auto;
+  cursor: text !important;
   box-sizing: content-box;
 }
 .rdw-editor-toolbar {
@@ -13,12 +14,14 @@
   width: 100%;
   background: white;
   flex-wrap: wrap;
-  font-size: 15px;
+  font-size: 12px;
   margin-bottom: 5px;
   user-select: none;
 }
+.rdw-editor-toolbar *{
+  box-sizing: content-box;
+}
 .public-DraftStyleDefault-block {
-  margin: 1em 0;
 }
 .rdw-editor-wrapper:focus {
   outline: none;

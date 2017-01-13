@@ -6,6 +6,7 @@ import { RichUtils, EditorState, Modifier } from 'draft-js';
 import classNames from 'classnames';
 import { getFirstIcon } from '../../utils/toolbar';
 import Option from '../Option';
+import {JavaDe} from '../../Utils/func';
 import { Dropdown, DropdownOption } from '../Dropdown';
 
 import styles from './styles.css'; // eslint-disable-line no-unused-vars
@@ -78,10 +79,7 @@ export default class InlineControl extends Component {
                 (style.toUpperCase() === 'MONOSPACE' && currentStyles['CODE'])
               }
             >
-              <img
-                role="presentation"
-                src={config[style].icon}
-              />
+              <span className="iconfont">{JavaDe(config[style].icon)}</span>
             </Option>
           )
         }
@@ -98,10 +96,7 @@ export default class InlineControl extends Component {
         modalHandler={modalHandler}
         aria-label="rdw-inline-control"
       >
-        <img
-          src={getFirstIcon(config)}
-          role="presentation"
-        />
+        <span className="iconfont">{JavaDe(getFirstIcon(config))}</span>
         {
           config.options
           .map((style, index) =>
@@ -114,10 +109,7 @@ export default class InlineControl extends Component {
                 (style.toUpperCase() === 'MONOSPACE' && currentStyles['CODE'])
               }
             >
-              <img
-                src={config[style].icon}
-                role="presentation"
-              />
+              <span className="iconfont">{JavaDe(config[style].icon)}</span>
             </DropdownOption>)
           }
       </Dropdown>

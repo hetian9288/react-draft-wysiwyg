@@ -10,32 +10,45 @@ import {
   ContentState,
   EditorState,
 } from 'draft-js';
+import {stateFromHTML} from 'draft-js-import-html';
+import minToolbar from '../src/config/minToolbar';
+
 import { Editor } from '../src';
 import styles from './styles.css'; // eslint-disable-line no-unused-vars
 
-const contentBlocks = convertFromHTML('<p><p>Lorem ipsum ' +
-      'dolor sit amet, consectetur adipiscing elit. Mauris tortor felis, volutpat sit amet ' +
-      'maximus nec, tempus auctor diam. Nunc odio elit,  ' +
-      'commodo quis dolor in, sagittis scelerisque nibh. ' +
-      'Suspendisse consequat, sapien sit amet pulvinar  ' +
-      'tristique, augue ante dapibus nulla, eget gravida ' +
-      'turpis est sit amet nulla. Vestibulum lacinia mollis  ' +
-      'accumsan. Vivamus porta cursus libero vitae mattis. ' +
-      'In gravida bibendum orci, id faucibus felis molestie ac.  ' +
-      'Etiam vel elit cursus, scelerisque dui quis, auctor risus.</p><img src="http://i.imgur.com/aMtBIep.png" /></p>');
+const contentBlocks = convertFromHTML('<p>中<strong>华人</strong>民<span style="color: rgba(48,23,176,1);">共和国</span></p>');
 
 const contentState = ContentState.createFromBlockArray(contentBlocks);
 
 // const rawContentState = convertToRaw(contentState);
 
-const rawContentState = {"entityMap":{"0":{"type":"IMAGE","mutability":"MUTABLE","data":{"src":"http://i.imgur.com/aMtBIep.png","height":"auto","width":"100%"}}},"blocks":[{"key":"9unl6","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"95kn","text":" ","type":"atomic","depth":0,"inlineStyleRanges":[],"entityRanges":[{"offset":0,"length":1,"key":0}],"data":{}},{"key":"7rjes","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]};
+const rawContentState = {
+    "entityMap": {},
+    "blocks": [{
+        "key": "f5emd",
+        "text": "fsfs中sdasd华人民共和国",
+        "type": "unstyled",
+        "depth": 0,
+        "inlineStyleRanges": [{
+            "offset": 10,
+            "length": 2,
+            "style": "BOLD"
+        }, {
+            "offset": 14,
+            "length": 2,
+            "style": "bgcolor-rgba(62,39,178,1)"
+        }],
+        "entityRanges": [],
+        "data": {}
+    }]
+}
 
 class Playground extends Component {
 
   state: any = {
     editorContent: undefined,
     contentState: rawContentState,
-    editorState: EditorState.createWithContent(contentState),
+    editorState: EditorState.createWithContent(contentState)
   };
 
   onEditorChange: Function = (editorContent) => {
@@ -90,12 +103,14 @@ class Playground extends Component {
         <div className="playground-editorSection">
           <div className="playground-editorWrapper">
             <Editor
-              contentState={contentState}
+            isPopup={true}
+                toolbar={minToolbar}
+                contentState={contentState}
               toolbarClassName="playground-toolbar"
               wrapperClassName="playground-wrapper"
               editorClassName="playground-editor"
               uploadCallback={this.imageUploadCallBack}
-              onEditorStateChange={this.onEditorStateChange}
+              onEditorStateChange={(e) => {console.log(e)}}
               onContentStateChange={this.onEditorChange}
               placeholder="testing"
               spellCheck

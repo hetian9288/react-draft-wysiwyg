@@ -4,7 +4,7 @@
   margin-bottom: 6px;
 }
 .rdw-fontfamily-dropdown {
-  width: 115px;
+  max-width: 90px;
 }
 .rdw-fontfamily-placeholder {
   white-space: nowrap;

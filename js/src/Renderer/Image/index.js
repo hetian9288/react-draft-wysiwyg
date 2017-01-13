@@ -62,7 +62,7 @@ const getImageComponent = (config) => {
             onClick={this.setEntityAlignmentCenter}
             className="rdw-image-alignment-option"
           >
-            C
+            Z
           </Option>
           <Option
             onClick={this.setEntityAlignmentRight}

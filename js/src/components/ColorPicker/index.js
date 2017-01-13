@@ -8,7 +8,9 @@ import {
   getSelectionCustomInlineStyle,
 } from 'draftjs-utils';
 import Option from '../Option';
+import {JavaDe} from '../../Utils/func';
 import styles from './styles.css'; // eslint-disable-line no-unused-vars
+import { SketchPicker } from 'react-color';
 
 export default class ColorPicker extends Component {
 
@@ -23,30 +25,28 @@ export default class ColorPicker extends Component {
     currentColor: undefined,
     currentBgColor: undefined,
     showModal: false,
+    showColorModal: false,
+    showBgColorModal: false,
     currentStyle: 'color',
   };
 
   componentWillMount(): void {
     const { editorState, modalHandler } = this.props;
     if (editorState) {
-      this.setState({
-        currentColor: getSelectionCustomInlineStyle(editorState, ['COLOR']).COLOR,
-        currentBgColor: getSelectionCustomInlineStyle(editorState, ['BGCOLOR']).BGCOLOR,
-      });
+        this.currentColorValue = getSelectionCustomInlineStyle(editorState, ['COLOR']).COLOR;
+        this.currentBgColorValue = getSelectionCustomInlineStyle(editorState, ['BGCOLOR']).BGCOLOR;
     }
     modalHandler.registerCallBack(this.showHideModal);
   }
 
   componentWillReceiveProps(properties: Object): void {
-    const newState = {};
     if (properties.editorState &&
       this.props.editorState !== properties.editorState) {
-      newState.currentColor
-        = getSelectionCustomInlineStyle(properties.editorState, ['COLOR']).COLOR;
-      newState.currentBgColor
-        = getSelectionCustomInlineStyle(properties.editorState, ['BGCOLOR']).BGCOLOR;
+        this.currentColorValue = getSelectionCustomInlineStyle(properties.editorState, ['COLOR']).COLOR;
+      // newState.currentColor
+      //   = getSelectionCustomInlineStyle(properties.editorState, ['COLOR']).COLOR;
+      this.currentBgColorValue = getSelectionCustomInlineStyle(properties.editorState, ['BGCOLOR']).BGCOLOR;
     }
-    this.setState(newState);
   }
 
   componentWillUnmount(): void {
@@ -54,119 +54,131 @@ export default class ColorPicker extends Component {
     modalHandler.deregisterCallBack(this.showHideModal);
   }
 
-  onOptionClick: Function = (): void => {
-    this.signalShowModal = !this.state.showModal;
+  onOptionClick: Function = (type: string): void => {
+    switch (type){
+      case 'bgcolor':
+        this.setCurrentStyleBgcolor();
+        break;
+      case 'color':
+        this.setCurrentStyleColor();
+        break;
+    }
   };
 
   setCurrentStyleBgcolor: Function = (): void => {
     this.setState({
-      currentStyle: 'bgcolor',
+      currentStyle: 'bgcolor'
     });
+    this.signalBgcolorShowModal = !this.signalBgcolorShowModal;
+    this.signalColorShowModal = false;
   };
 
   setCurrentStyleColor: Function = (): void => {
     this.setState({
       currentStyle: 'color',
     });
+      this.signalColorShowModal = !this.signalColorShowModal;
+      this.signalBgcolorShowModal = false;
   };
 
   showHideModal: Function = (): void => {
     this.setState({
-      showModal: this.signalShowModal,
+      showBgColorModal: this.signalBgcolorShowModal,
+      showColorModal: this.signalColorShowModal,
+      currentColor: this.currentColorValue,
+        currentBgColor:this.currentBgColorValue,
     });
-    this.signalShowModal = false;
+    this.signalColorShowModal = false;
+    this.signalBgcolorShowModal = false;
+      this.currentColorValue = undefined;
+      this.currentBgColorValue = undefined;
   }
-
-  toggleColor: Function = (color: string): void => {
-    const { editorState, onChange } = this.props;
-    const { currentStyle } = this.state;
-    const newState = toggleCustomInlineStyle(
-      editorState,
-      currentStyle,
-      `${currentStyle}-${color}`
-    );
-    if (newState) {
-      onChange(newState);
-    }
-  };
 
   stopPropagation: Function = (event: Object): void => {
     event.preventDefault();
     event.stopPropagation();
   };
 
-  renderModal: Function = (): Object => {
+  setColor: Function = (type: string, color: Object): void => {
+      const colorVal = `rgba(${color.rgb.r},${color.rgb.g},${color.rgb.b},${color.rgb.a})`;
+      const { editorState, onChange } = this.props;
+      // 设置样式
+      const newState = toggleCustomInlineStyle(
+          editorState,
+          type,
+          `${type}-${colorVal}`
+      );
+      // 更新state
+      switch (type){
+          case 'color':
+              this.setState({
+                  currentColor: colorVal
+              });
+              break;
+          case 'bgcolor':
+              this.setState({
+                  currentBgColor: colorVal
+              });
+              break;
+      }
+
+      if (newState) {
+          onChange(newState);
+      }
+  };
+
+  renderModal: Function = (color:string): Object => {
     const { config: { popupClassName } } = this.props;
-    const { currentColor, currentBgColor, currentStyle } = this.state;
-    const currentSelectedColor = (currentStyle === 'color') ? currentColor : currentBgColor;
+    const { currentBgColor, currentColor, currentStyle } = this.state;
+      let colorVal = currentStyle === 'bgcolor' ? this.state.currentBgColor : this.state.currentColor;
     return (
-      <div
-        className={classNames('rdw-colorpicker-modal', popupClassName)}
-        onClick={this.stopPropagation}
-      >
-        <span className="rdw-colorpicker-modal-header">
-          <span
-            className={classNames(
-              'rdw-colorpicker-modal-style-label',
-              { 'rdw-colorpicker-modal-style-label-active': currentStyle === 'color' }
-            )}
-            onClick={this.setCurrentStyleColor}
-          >
-            Text
-          </span>
-          <span
-            className={classNames(
-              'rdw-colorpicker-modal-style-label',
-              { 'rdw-colorpicker-modal-style-label-active': currentStyle === 'bgcolor' }
-            )}
-            onClick={this.setCurrentStyleBgcolor}
-          >
-            Background
-          </span>
-        </span>
-        <span className="rdw-colorpicker-modal-options">
-          {
-            colors.map((color, index) =>
-              <Option
-                value={color}
-                key={index}
-                className="rdw-colorpicker-option"
-                activeClassName="rdw-colorpicker-option-active"
-                active={currentSelectedColor === `${currentStyle}-${color}`}
-                onClick={this.toggleColor}
-              >
-                <span
-                  style={{ backgroundColor: color }}
-                  className="rdw-colorpicker-cube"
-                />
-              </Option>)
-          }
-        </span>
-      </div>
-    );
+        <div
+            className={classNames('rdw-colorpicker-modal', popupClassName)}
+            onClick={this.stopPropagation}
+        >
+          <SketchPicker
+              color={ color }
+              onChange={ this.setColor.bind(this,currentStyle) }
+          />
+        </div>
+    )
   };
 
   render(): Object {
-    const { config: { icon, className } } = this.props;
-    const { showModal } = this.state;
-    return (
-      <div
-        className="rdw-colorpicker-wrapper"
-        aria-haspopup="true"
-        aria-expanded={showModal}
-        aria-label="rdw-color-picker"
-      >
-        <Option
-          onClick={this.onOptionClick}
-          className={classNames(className)}
-        >
-          <img
-            src={icon}
-            role="presentation"
-          />
-        </Option>
-        {showModal ? this.renderModal() : undefined}
-      </div>
-    );
+      const { config: {options, color, bgcolor, className} } = this.props;
+      const { showColorModal,showBgColorModal } = this.state;
+
+      return (
+          <div className={classNames('rdw-colorpicker-wrapper', className)} aria-label="rdw-colorPicker-control">
+              {
+                  options.indexOf('color') >= 0 &&
+                  <div className={classNames('colorpicker-wrapper')}>
+                      <Option
+                          className={classNames(color.className)}
+                          onClick={this.onOptionClick.bind(this, 'color')}
+                          aria-haspopup="true"
+                          aria-expanded={showColorModal}
+                      >
+                          <span className="iconfont">{JavaDe(color.icon)}</span>
+                      </Option>
+                      {showColorModal ? this.renderModal(this.state.currentColor) : undefined}
+                  </div>
+              }
+              {
+                  options.indexOf('bgcolor') >= 0 &&
+                  <div className={classNames('colorpicker-wrapper')}>
+                      <Option
+                          className={classNames(bgcolor.className)}
+                          onClick={this.onOptionClick.bind(this, 'bgcolor')}
+                          aria-haspopup="true"
+                          aria-expanded={showBgColorModal}
+                      >
+                          <span className="iconfont">{JavaDe(bgcolor.icon)}</span>
+                      </Option>
+                      {showBgColorModal ? this.renderModal(this.state.currentBgColor) : undefined}
+                  </div>
+              }
+          </div>
+      )
   }
 }

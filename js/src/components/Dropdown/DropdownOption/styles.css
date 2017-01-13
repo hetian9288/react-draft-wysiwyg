@@ -1,8 +1,9 @@
 .rdw-dropdownoption-default {
-  min-height: 25px;
   display: flex;
   align-items: center;
-  padding: 0 5px;
+  font-size: 12px;
+  line-height: 28px;
+  padding: 4px 16px;
 }
 .rdw-dropdownoption-highlighted {
   background: #F1F1F1;

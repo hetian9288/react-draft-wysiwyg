@@ -4,6 +4,7 @@ import React, { Component, PropTypes } from 'react';
 import { EditorState, Modifier } from 'draft-js';
 import classNames from 'classnames';
 import Option from '../Option';
+import {JavaDe} from '../../Utils/func';
 import styles from './styles.css'; // eslint-disable-line no-unused-vars
 
 export default class RemoveControl extends Component {
@@ -40,10 +41,7 @@ export default class RemoveControl extends Component {
           className={classNames(className)}
           onClick={this.removeInlineStyles}
         >
-          <img
-            src={icon}
-            role="presentation"
-          />
+          <span className="iconfont">{JavaDe(icon)}</span>
         </Option>
       </div>
     );

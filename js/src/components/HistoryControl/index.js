@@ -4,6 +4,7 @@ import React, { Component, PropTypes } from 'react';
 import { EditorState } from 'draft-js';
 import classNames from 'classnames';
 import { getFirstIcon } from '../../utils/toolbar';
+import {JavaDe} from '../../Utils/func';
 import Option from '../Option';
 import { Dropdown, DropdownOption } from '../Dropdown';
 import styles from './styles.css'; // eslint-disable-line no-unused-vars
@@ -68,29 +69,20 @@ export default class HistoryControl extends Component {
         modalHandler={modalHandler}
         aria-label="rdw-history-control"
       >
-        <img
-          src={getFirstIcon(config)}
-          role="presentation"
-        />
+        <span className="iconfont">{JavaDe(getFirstIcon(config))}</span>
         {options.indexOf('undo') >= 0 && <DropdownOption
           onClick={this.undo}
           disabled={undoDisabled}
           className={classNames('rdw-history-dropdownoption', undo.className)}
         >
-          <img
-            src={undo.icon}
-            role="presentation"
-          />
+          <span className="iconfont">{JavaDe(undo.icon)}</span>
         </DropdownOption>}
         {options.indexOf('redo') >= 0 && <DropdownOption
           onClick={this.redo}
           disabled={redoDisabled}
           className={classNames('rdw-history-dropdownoption', redo.className)}
         >
-          <img
-            src={redo.icon}
-            role="presentation"
-          />
+          <span className="iconfont">{JavaDe(redo.icon)}</span>
         </DropdownOption>}
       </Dropdown>
     );
@@ -106,10 +98,7 @@ export default class HistoryControl extends Component {
           className={classNames(undo.className)}
           disabled={undoDisabled}
         >
-          <img
-            src={undo.icon}
-            role="presentation"
-          />
+          <span className="iconfont">{JavaDe(undo.icon)}</span>
         </Option>}
         {options.indexOf('redo') >= 0 && <Option
           value="ordered-list-item"
@@ -117,10 +106,7 @@ export default class HistoryControl extends Component {
           className={classNames(redo.className)}
           disabled={redoDisabled}
         >
-          <img
-            src={redo.icon}
-            role="presentation"
-          />
+          <span className="iconfont">{JavaDe(redo.icon)}</span>
         </Option>}
       </div>
     );

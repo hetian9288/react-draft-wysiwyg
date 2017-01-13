@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import { getFirstIcon } from '../../utils/toolbar';
 import { Dropdown, DropdownOption } from '../Dropdown';
 import Option from '../Option';
+import {JavaDe} from '../../Utils/func';
 import styles from './styles.css'; // eslint-disable-line no-unused-vars
 
 export default class ListControl extends Component {
@@ -98,10 +99,7 @@ export default class ListControl extends Component {
           className={classNames(unordered.className)}
           active={currentBlockType === 'unordered-list-item'}
         >
-          <img
-            src={unordered.icon}
-            role="presentation"
-          />
+          <span className="iconfont">{JavaDe(unordered.icon)}</span>
         </Option>}
         {options.indexOf('ordered') >= 0 && <Option
           value="ordered-list-item"
@@ -109,28 +107,19 @@ export default class ListControl extends Component {
           className={classNames(ordered.className)}
           active={currentBlockType === 'ordered-list-item'}
         >
-          <img
-            src={ordered.icon}
-            role="presentation"
-          />
+          <span className="iconfont">{JavaDe(ordered.icon)}</span>
         </Option>}
         {options.indexOf('indent') >= 0 && <Option
           onClick={this.indent}
           className={classNames(indent.className)}
         >
-          <img
-            src={indent.icon}
-            role="presentation"
-          />
+          <span className="iconfont">{JavaDe(indent.icon)}</span>
         </Option>}
         {options.indexOf('outdent') >= 0 && <Option
           onClick={this.outdent}
           className={classNames(outdent.className)}
         >
-          <img
-            src={outdent.icon}
-            role="presentation"
-          />
+          <span className="iconfont">{JavaDe(outdent.icon)}</span>
         </Option>}
       </div>
     );
@@ -146,10 +135,7 @@ export default class ListControl extends Component {
         modalHandler={modalHandler}
         aria-label="rdw-list-control"
       >
-        <img
-          src={getFirstIcon(config)}
-          role="presentation"
-        />
+        <span className="iconfont">{JavaDe(getFirstIcon(config))}</span>
         { this.options
           .filter(option => options.indexOf(option.type) >= 0)
           .map((option, index) => (<DropdownOption
@@ -158,10 +144,7 @@ export default class ListControl extends Component {
             className={classNames('rdw-list-dropdownOption', config[option.type].className)}
             active={currentBlockType === option.value}
           >
-            <img
-              src={config[option.type].icon}
-              role="presentation"
-            />
+            <span className="iconfont">{JavaDe(config[option.type].icon)}</span>
           </DropdownOption>))
         }
       </Dropdown>

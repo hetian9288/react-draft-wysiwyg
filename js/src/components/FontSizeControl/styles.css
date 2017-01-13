@@ -4,9 +4,12 @@
   margin-bottom: 6px;
 }
 .rdw-fontsize-dropdown {
-  min-width: 40px;
+  width:58px;
 }
 .rdw-fontsize-option {
   display: flex;
   justify-content: center;
+}
+.rdw-fontsize-optionwrapper {
+  width: 80px;
 }
